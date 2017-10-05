@@ -1,0 +1,30 @@
+# SET B
+<Ol type='1'>
+<li> SELECT STREET_ADDRESS,CITY,STATE_PROVINCE,POSTAL_CODE<br>
+FROM LOCATIONS<br>
+ORDER BY POSTAL_CODE   DESC;<br>
+</li>
+<li>
+SELECT (SUBSTR(FIRST_NAME,1,1)||'. '||LAST_NAME) "FULL NAME", SALARY*12+(SALARY*12)*  NVL(commission_pct,0)  "ANNUAL  SALARY",<br>
+SALARY*12+(SALARY*12)*   NVL(commission_pct,0)-(SALARY *   12+(SALARY   * 12) * NVL(commission_pct,0))* .05  "ANNUAL  SALARY" <br>
+FROM EMPLOYEES<br>
+WHERE UPPER(SUBSTR(LAST_NAME,LENGTH(LAST_NAME),1))='S';<br>
+</li>
+<li>
+SELECT FIRST_NAME,SYSDATE-HIRE_DATE<br>
+FROM EMPLOYEES;<br>
+</li>
+<li>SELECT RPAD(FIRST_NAME, 20, ' ') NAME,DEPARTMENT_ID<br>
+FROM EMPLOYEES<br>
+WHERE JOB_ID='SA_REP' OR JOB_ID='IT_PROG'   <br>
+ORDER BY  LENGTH(first_name) DESC;<br>
+</li>
+<li>SELECT    MANAGER_ID,COUNT(* ),avg(salary)<br>
+FROM  EMPLOYEES<br>
+WHERE    MANAGER_ID   IS   NOT      NULL<br>
+GROUP BY MANAGER_ID<br>
+HAVING (COUNT(* )<4 and avg(salary)<2000) <br>
+ORDER   BY COUNT(* )  ASC,avg(salary) DESC;<br>
+</li>
+
+</ol>
