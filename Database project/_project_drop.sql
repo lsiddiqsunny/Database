@@ -6,10 +6,12 @@ Drop Table Book;
 Drop Table Publisher;
 Drop Table Book_storage;
 Drop Table Customer;
-Drop Table office_materials;
 Drop Table Job_history;
 Drop Table Employee;
 Drop Table Job;
 Drop Table Department;
+Drop Table material_amount;
 Drop Table Branch;
 Drop Table Location;
+Drop Table office_material;
+
