@@ -1,0 +1,15 @@
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (1,'Germany',96);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (2,'Belgium',22);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (3,'Malaysia',57);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (4,'Russian Federation',99);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (5,'French',26);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (6,'Antarctica',82);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (7,'Cameroon',47);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (8,'South Africa',32);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (9,'United Arab Emirates',87);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (10,'Ireland',64);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (11,'Albania',88);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (12,'Tokelau',52);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (13,'Finland',46);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (14,'Iraq',51);
+INSERT INTO Branch (Branch_id,Branch_name,Location_id) VALUES (15,'United Kingdom (Great Britain)',55);
