@@ -28,13 +28,7 @@ Branch_name VARCHAR2(30),
 Location_id REFERENCES Location(Location_id)
 );
 
---Office materials
-CREATE TABLE Office_Materials(
-Material_id INT PRIMARY KEY,
-Type_name VARCHAR2(30),
-Amount INT,
-Branch_id REFERENCES Branch(Branch_id)
-);
+
 
 --Employee
 CREATE TABLE Employee(
@@ -81,6 +75,7 @@ CREATE TABLE Publisher_Transaction(
 Publisher_Transaction_id INT PRIMARY KEY,
 Amount INT,
 Time Date,
+Book_id REFERENCES book(Book_id),
 Publisher_id REFERENCES Publisher(Publisher_id)
 );
 
@@ -103,9 +98,6 @@ Location_id REFERENCES Location(Location_id),
 Employee_id REFERENCES Employee(Employee_id),
 Branch_id REFERENCES Branch(Branch_id)
 );
---Project:online book sharing platform
---Date 15/11/2017
---Author: Latif Siddiq and Nadia Anjum
 
 --Book
 CREATE TABLE Book(
@@ -128,7 +120,7 @@ Customer_id REFERENCES Customer(Customer_id),
 Book_id REFERENCES Book(Book_id)
 );
 
---Customer transaction
+--Customer Review
 CREATE TABLE Review(
 Review_id INT PRIMARY KEY,
 Time DATE,
