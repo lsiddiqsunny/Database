@@ -57,12 +57,11 @@ CREATE TABLE Transport(
 Transport_id INT PRIMARY KEY,
 License VARCHAR2(255),
 Weight_Capacity INT,
-Location_id REFERENCES Location(Location_id),
-Employee_id REFERENCES Employee(Employee_id),
+Driver_id REFERENCES Employee(Employee_id),
 Branch_id REFERENCES Branch(Branch_id)
 );
 
---Book storage 
+--Book storage
 CREATE TABLE Book_storage(
 Storage_id INT PRIMARY KEY,
 Book_Capacity INT,
