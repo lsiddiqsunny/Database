@@ -82,6 +82,9 @@ Location_id REFERENCES Location(Location_id)
 CREATE TABLE Book(
 Book_id INT PRIMARY KEY,
 Book_name VARCHAR2(500),
+ISBN VARCHAR2(45),
+Book_type VARCHAR2(50),
+Author_name VARCHAR2(500),
 Price Number,
 Commision Number(2,2),
 Total_in_storage INT,

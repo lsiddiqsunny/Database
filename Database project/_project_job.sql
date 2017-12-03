@@ -16,7 +16,7 @@ INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (12,'Bookkeeper',20
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (13,'Buyer',25000,4);
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (14,'Expeditor',23000,4);
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (15,'Purchasing Agent',18000,4);
-INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (16,'PPurchasing Manager',26000,4);
+INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (16,'Purchasing Manager',26000,4);
 
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (17,'Web developer',50000,5);
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (18,'Database Administrator',60000,5);
@@ -33,3 +33,4 @@ INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (25,'Marketing exec
 
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (26,'Clerk',24000,8);
 INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (27,'Janitor',22000,8);
+INSERT INTO Job(Job_id,Job_name,Salary,Department_id) VALUES (28,'Supplier',26000,4);
