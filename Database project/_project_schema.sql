@@ -28,6 +28,14 @@ Branch_name VARCHAR2(255)
 );
 
 
+--Book storage
+CREATE TABLE Book_storage(
+Storage_id INT PRIMARY KEY,
+Book_Capacity INT,
+Location_id REFERENCES Location(Location_id),
+Branch_id REFERENCES Branch(Branch_id)
+);
+
 
 --Employee
 CREATE TABLE Employee(
@@ -37,7 +45,8 @@ Email VARCHAR2(255),
 Phone_number VARCHAR2(30),
 Password VARCHAR2(100),
 Location_id REFERENCES Location(Location_id),
-Job_id REFERENCES Job(Job_id)
+Job_id REFERENCES Job(Job_id),
+Book_storage_id REFERENCES Book_storage(Storage_id)
 );
 
 --Job history
@@ -58,15 +67,6 @@ Transport_id INT PRIMARY KEY,
 License VARCHAR2(255),
 Weight_Capacity INT,
 Driver_id REFERENCES Employee(Employee_id),
-Branch_id REFERENCES Branch(Branch_id)
-);
-
---Book storage
-CREATE TABLE Book_storage(
-Storage_id INT PRIMARY KEY,
-Book_Capacity INT,
-Location_id REFERENCES Location(Location_id),
-Employee_id REFERENCES Employee(Employee_id),
 Branch_id REFERENCES Branch(Branch_id)
 );
 
@@ -147,5 +147,20 @@ Branch_id  REFERENCES Branch(Branch_id),
 Material_id  REFERENCES Office_material(Material_id),
 Amount INT,
 CONSTRAINT material_amount_PK PRIMARY KEY (Branch_id,Material_id)
+
+);
+--Book_type
+CREATE TABLE Book_type(
+Book_type_id INT PRIMARY KEY,
+Book_type_name VARCHAR2(255),
+Total_in_store INT
+);
+--Author
+CREATE TABLE Author(
+Author_id  INT not null,
+Book_id  REFERENCES Book(Book_id) not null,
+Author_name varchar2(100),
+Birthday  date default sysdate,
+CONSTRAINT  Author_PK PRIMARY KEY (Author_id,Book_id)
 
 );
