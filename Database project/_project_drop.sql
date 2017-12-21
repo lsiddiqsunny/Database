@@ -15,3 +15,4 @@ Drop Table Branch;
 Drop Table Location;
 Drop Table office_material;
 Drop Table book_type;
+Drop Table Workinfo;

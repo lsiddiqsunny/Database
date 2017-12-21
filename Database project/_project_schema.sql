@@ -77,14 +77,17 @@ Publisher_id INT PRIMARY KEY,
 Publisher_name VARCHAR2(255),
 Location_id REFERENCES Location(Location_id)
 );
-
+--Book_type
+CREATE TABLE Book_type(
+Book_type_id INT PRIMARY KEY,
+Book_type_name VARCHAR2(255),
+);
 --Book
 CREATE TABLE Book(
 Book_id INT PRIMARY KEY,
 Book_name VARCHAR2(500),
 ISBN VARCHAR2(45),
-Book_type VARCHAR2(50),
-Author_name VARCHAR2(500),
+Book_type_id REFERENCES Book_type(Book_type_id),
 Price Number,
 Commision Number(2,2),
 Total_in_storage INT,
@@ -149,12 +152,7 @@ Amount INT,
 CONSTRAINT material_amount_PK PRIMARY KEY (Branch_id,Material_id)
 
 );
---Book_type
-CREATE TABLE Book_type(
-Book_type_id INT PRIMARY KEY,
-Book_type_name VARCHAR2(255),
-Total_in_store INT
-);
+
 --Author
 CREATE TABLE Author(
 Author_id  INT not null,
@@ -162,5 +160,14 @@ Book_id  REFERENCES Book(Book_id) not null,
 Author_name varchar2(100),
 Birthday  date default sysdate,
 CONSTRAINT  Author_PK PRIMARY KEY (Author_id,Book_id)
+);
 
+--Working Details
+CREATE TABLE Workinfo(
+Work_id INT PRIMARY KEY,
+Work_Order_Time DATE,
+Work_Details VARCHAR2(1000),
+Employee_id REFERENCES Employee(Employee_id),
+OrderedBy REFERENCES Employee(Employee_id),
+Work_Status INT DEFAULT 0
 );
