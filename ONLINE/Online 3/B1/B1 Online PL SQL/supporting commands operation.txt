@@ -1,0 +1,28 @@
+
+-------Part 1--------
+Drop table EMP;
+create table EMP
+(
+employee_id varchar2(10),
+name varchar2(40),
+salary number(10,0),
+manager_id number(4,0),
+department_id number(4,0),
+working_project varchar2(10)
+);
+
+
+insert into emp(employee_id,name, salary, manager_id, department_id)
+select employee_id,first_name || ' ' || last_name, salary, manager_id, department_id
+from employees;
+
+
+-------Part 2--------
+insert into emp(employee_id,name, salary, manager_id, department_id, working_project) values 
+('623', 'Rahim', 15000, 100, 90, 'GRAND' );
+insert into emp(employee_id,name,  manager_id, department_id, working_project) values 
+('624', 'Karim',  100, 90, 'GRAND' );
+insert into emp(employee_id,name, salary, manager_id, department_id) values 
+('627', 'Rafiq', 15000, 120, 90 );
+insert into emp(employee_id,name, salary, manager_id, department_id) values 
+('628', 'Rafiq', 15000, 177, 95 );
