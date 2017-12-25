@@ -1,0 +1,22 @@
+1.
+CREATE OR REPLACE TRIGGER Updaterating
+BEFORE INSERT
+ON REVIEW
+FOR EACH ROW
+DECLARE
+CO number;
+Total Number;
+BEGIN
+CO:=1;
+Total:= :NEW.RATING;
+FOR R IN (SELECT RATING FROM REVIEW WHERE BOOK_ID= :NEW.BOOK_ID)
+LOOP
+CO :=CO+1;
+Total:= Total+R.Rating;
+END LOOP;
+Update Book
+Set Rating=(Total/CO)
+Where Book_id= :NEW.BOOK_ID;
+
+END ;
+/

@@ -90,7 +90,9 @@ ISBN VARCHAR2(45),
 Book_type_id REFERENCES Book_type(Book_type_id),
 Price Number,
 Commision Number(2,2),
+Rating Number,
 Total_in_storage INT,
+Add_Date Date Default sysdate,
 Publisher_id REFERENCES Publisher(Publisher_id),
 Storage_id REFERENCES Book_storage(Storage_id)
 );
@@ -132,6 +134,7 @@ CREATE TABLE Review(
 Review_id INT PRIMARY KEY,
 Time DATE,
 Review VARCHAR2(1000),
+Rating INT,
 Customer_id REFERENCES Customer(Customer_id),
 Book_id REFERENCES Book(Book_id)
 );
@@ -170,4 +173,28 @@ Work_Details VARCHAR2(1000),
 Employee_id REFERENCES Employee(Employee_id),
 OrderedBy REFERENCES Employee(Employee_id),
 Work_Status INT DEFAULT 0
+);
+
+--CUSTOMER PURCHASE
+CREATE TABLE CUSTOMER_PURCHASE(
+PURCHASE_ID  INT,
+ORDER_ID REFERENCES CUSTOMER_ORDER(ORDER_ID),
+CONSTRAINT CUSTOMER_PURCHASE_PK PRIMARY KEY (PURCHASE_ID,ORDER_ID)
+);
+
+--PUBLISHER PURCHASE
+CREATE TABLE PUBLISHER_PURCHASE(
+PURCHASE_ID  INT,
+PUBLISHER_TRANSACTION_ID REFERENCES PUBLISHER_TRANSACTION(PUBLISHER_TRANSACTION_ID),
+CONSTRAINT PUBLISHER_PURCHASE_PK PRIMARY KEY (PURCHASE_ID,PUBLISHER_TRANSACTION_ID)
+);
+
+
+--Offer_Details
+
+CREATE TABLE Offer_Details(
+Offer_Details_ID  INT,
+Offer_Details VARCHAR2(1000) NOT NULL,
+Offer_Start Date DEFAULT SYSDATE,
+Offer_End Date DEFAULT  SYSDATE
 );
