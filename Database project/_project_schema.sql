@@ -89,10 +89,10 @@ Book_name VARCHAR2(500),
 ISBN VARCHAR2(45),
 Book_type_id REFERENCES Book_type(Book_type_id),
 Price Number,
-Commision Number(2,2),
 Rating Number,
 Total_in_storage INT,
 Add_Date Date Default sysdate,
+Publisher_price number,
 Publisher_id REFERENCES Publisher(Publisher_id),
 Storage_id REFERENCES Book_storage(Storage_id)
 );
@@ -117,6 +117,15 @@ Location_id REFERENCES Location(Location_id),
 Branch_id REFERENCES Branch(Branch_id)
 );
 
+--Offer_Details
+
+CREATE TABLE Offer_Details(
+Offer_Details_ID  INT,
+Offer_Details VARCHAR2(1000) NOT NULL,
+percentage NUMBER,
+Offer_Start Date DEFAULT SYSDATE,
+Offer_End Date DEFAULT  SYSDATE
+);
 
 
 --Customer transaction
@@ -125,6 +134,7 @@ Order_id INT PRIMARY KEY,
 Time DATE,
 Status INT,
 Amount INT,
+Applied_offer REFERENCES Offer_Details(Offer_Details_ID),
 Customer_id REFERENCES Customer(Customer_id),
 Book_id REFERENCES Book(Book_id)
 );
@@ -161,7 +171,6 @@ CREATE TABLE Author(
 Author_id  INT not null,
 Book_id  REFERENCES Book(Book_id) not null,
 Author_name varchar2(100),
-Birthday  date default sysdate,
 CONSTRAINT  Author_PK PRIMARY KEY (Author_id,Book_id)
 );
 
@@ -179,7 +188,7 @@ Work_Status INT DEFAULT 0
 CREATE TABLE CUSTOMER_PURCHASE(
 PURCHASE_ID  INT,
 ORDER_ID REFERENCES CUSTOMER_ORDER(ORDER_ID),
-Total_Payment Number,
+PURCHASE_TIME DATE,
 CONSTRAINT CUSTOMER_PURCHASE_PK PRIMARY KEY (PURCHASE_ID,ORDER_ID)
 );
 
@@ -191,12 +200,29 @@ Total_Payment Number,
 CONSTRAINT PUBLISHER_PURCHASE_PK PRIMARY KEY (PURCHASE_ID,PUBLISHER_TRANSACTION_ID)
 );
 
+--Pending Book Insert
+CREATE TABLE PendingBookInsert(
+PendingBookInsertId int primary key,
+Publisher_id References Publisher(Publisher_Id),
+Book_name VARCHAR2(500),
+ISBN VARCHAR2(45),
+Book_type_id REFERENCES Book_type(Book_type_id),
+Price Number,
+Total_in_storage INT,
+Status int default 0,
+Author_id varchar2(100)
+);
 
---Offer_Details
+--Pending Book Update
+CREATE TABLE PendingBookUpdate(
+PendingBookUpdate INT primary key,
+Publisher_id REFERENCES Publisher(Publisher_id),
+Book_id references Book(book_id),
+Price Number,
+Status int default 0
+);
 
-CREATE TABLE Offer_Details(
-Offer_Details_ID  INT,
-Offer_Details VARCHAR2(1000) NOT NULL,
-Offer_Start Date DEFAULT SYSDATE,
-Offer_End Date DEFAULT  SYSDATE
+--Listed AUTHORCREATE TABLE AUTHORLIST(
+LISTEDAUTHORID INT PRIMARY KEY,
+AUTHOR_NAME VARCHAR2(100)
 );
