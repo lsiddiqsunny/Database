@@ -4,6 +4,7 @@ Drop Table Publisher_PURCHASE;
 Drop Table Publisher_transaction;
 Drop Table Customer_order;
 Drop Table Review;
+DROP TABLE BookRequest;
 Drop Table Book;
 Drop Table Publisher;
 Drop Table Customer;

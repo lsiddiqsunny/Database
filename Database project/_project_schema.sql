@@ -226,3 +226,12 @@ Status int default 0
 LISTEDAUTHORID INT PRIMARY KEY,
 AUTHOR_NAME VARCHAR2(100)
 );
+
+--Request for Book
+CREATE TABLE BookRequest(
+EMPLOYEE_ID REFERENCES EMPLOYEE(EMPLOYEE_ID),
+Book_id REFERENCES BOOK(BOOK_ID),
+Publisher_id REFERENCES Publisher(Publisher_id),
+Amount INT,
+CONSTRAINT BookRequest_PK PRIMARY KEY (Employee_id,Publisher_id)
+);
