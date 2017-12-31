@@ -1,0 +1,18 @@
+
+Create TABLE EMP
+(
+employee_idvarchar2(10),
+name varchar2(100),
+salary number(10,0),
+commission_pct number(10,2),
+department_id number(4,0),
+department_id number(4,0)
+);
+
+insert into emp(employee_id,name, salary, commission_pct, department_id, department_id)
+selectemployee_id,first_name || ' ' || last_name, salary, commission_pct, department_id, department_idfrom employees;
+
+
+insert into EMP (employee_id, name, salary, commission_pct, manager_id, department_id) values (301, 'Mr A', 22000,  0.25, 122, 90);
+insert into EMP (employee_id, name, salary, manager_id, department_id) values (302, 'Mr B',18000, 122, 95);
+insert into EMP (employee_id, name, salary, manager_id, department_id) values (303, 'Mr C',7000, 170, 90);
