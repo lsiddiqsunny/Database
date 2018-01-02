@@ -10,6 +10,7 @@ Drop TABLE PendingBookUpdate;
 Drop Table Book;
 Drop Table Publisher;
 Drop Table Customer;
+Drop Table Notice;
 Drop Table Job_history;
 Drop Table Workinfo;
 Drop Table Employee;
