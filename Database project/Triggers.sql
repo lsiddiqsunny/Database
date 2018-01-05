@@ -60,9 +60,73 @@ BEGIN
 IF :NEW.JOB_ID IS NULL THEN
 FOR R IN (select distinct JOB_ID from employee e where manager_id= :NEW.GIVENBY)
 LOOP
-INSERT INTO NOTICE VALUES((SELECT COUNT(*) FROM NOTICE)+1,:NEW.NOTICE,SYSDATE,:NEW.GIVENBY,:NEW.BRANCH_ID,R.JOB_ID);
+INSERT INTO NOTICE VALUES((SELECT COUNT(*) FROM NOTICE)+1,:NEW.NOTICE,SYSDATE,:NEW.GIVENBY,:NEW.BRANCH_ID,R.JOB_ID,1);
 END LOOP;
 END IF;
 
 END ;
 /
+
+5.
+
+
+
+CREATE OR REPLACE TRIGGER notification_after_order
+AFTER UPDATE
+   ON CUSTOMER_ORDER
+   FOR EACH ROW
+
+DECLARE
+
+
+BEGIN
+
+IF :OLD.ASSIGNEDTO IS NULL AND :OLD.STATUS=1 THEN
+   INSERT INTO NOTIFICATION
+   VALUES
+   ( (SELECT COUNT(*) FROM NOTIFICATION)+1,
+     'Your purchase order is assigned to our supplier.You will recieve your product soon.Thank You.',
+     (SELECT MANAGER_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=:new.ASSIGNEDTO),
+     :NEW.CUSTOMER_ID,
+     NULL,
+     NULL,
+     SYSDATE,
+     1);
+ ELSIF :OLD.STATUS=2 THEN
+   INSERT INTO NOTIFICATION
+   VALUES
+   ( (SELECT COUNT(*) FROM NOTIFICATION)+1,
+     'You have recieved your book. If it is not true please connect with our helpline: 123. Thank You.',
+     (SELECT MANAGER_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=:new.ASSIGNEDTO),
+     :NEW.CUSTOMER_ID,
+     NULL,
+     NULL,
+     SYSDATE,
+     1);
+
+END IF;
+END;
+
+/
+
+6.
+CREATE OR REPLACE TRIGGER notification_after_update_book
+AFTER UPDATE ON BOOK FOR EACH ROW
+
+BEGIN
+INSERT INTO NOTIFICATION VALUES
+((SELECT COUNT(*) FROM NOTIFICATION)+1,'The Price of the book is Updated',
+(select e.employee_id from employee e where e.book_storage_id=:NEW.storage_id), null, null, :NEW.PUBLISHER_ID, SYSDATE,1);
+
+END;
+/
+7.
+CREATE OR REPLACE TRIGGER notification_after_insert_book
+AFTER INSERT ON BOOK FOR EACH ROW
+
+BEGIN
+INSERT INTO NOTIFICATION VALUES
+((SELECT COUNT(*) FROM NOTIFICATION)+1,'The Price of the book is inserted',
+(select e.employee_id from employee e where e.book_storage_id=:NEW.storage_id), null, null, :NEW.PUBLISHER_ID, SYSDATE,1);
+
+END;

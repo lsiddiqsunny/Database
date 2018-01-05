@@ -49,7 +49,10 @@ Salary NUMBER,
 Commission_pct number(2,2),
 Location_id REFERENCES Location(Location_id),
 Job_id REFERENCES Job(Job_id),
-Book_storage_id REFERENCES Book_storage(Storage_id)
+Book_storage_id REFERENCES Book_storage(Storage_id),
+Join_date date default sysdate,
+Branch_id REFERENCES Branch(Branch_id),
+MANAGER_ID references Employee(EMPLOYEE_ID)
 );
 
 --Job history
@@ -205,7 +208,7 @@ CONSTRAINT PUBLISHER_PURCHASE_PK PRIMARY KEY (PURCHASE_ID,PUBLISHER_TRANSACTION_
 
 --Pending Book Insert
 CREATE TABLE PendingBookInsert(
-PendingBookInsertId int primary key,
+PendingBookInsertId int,
 Publisher_id References Publisher(Publisher_Id),
 Book_name VARCHAR2(500),
 ISBN VARCHAR2(45),
@@ -213,7 +216,8 @@ Book_type_id REFERENCES Book_type(Book_type_id),
 Price Number,
 Total_in_storage INT,
 Status int default 0,
-Author_id varchar2(100)
+Author_id references authorlist(listedauthorid),
+CONSTRAINT PendingBookInsert_PK PRIMARY KEY (PendingBookInsertId,Author_id)
 );
 
 --Pending Book Update
@@ -251,4 +255,16 @@ GivenBy REFERENCES EMPLOYEE(EMPLOYEE_ID),
 BRANCH_ID REFERENCES BRANCH(BRANCH_ID),
 JOB_ID REFERENCES JOB(JOB_ID)
 
+);
+
+-- Notification
+CREATE TABLE Notification(
+Notification_id INT PRIMARY KEY,
+Notification_massage Varchar2(1000),
+NotifiedBy  References EMPLOYEE (EMPLOYEE_ID),
+NotifiedToCustomer References CUSTOMER(CUSTOMER_ID),
+NOTIFIEDTOEMPLOYEE REFERENCES EMPLOYEE(EMPLOYEE_ID),
+NOTIFIEDTOPUBLISHER REFERENCES PUBLISHER(PUBLISHER_ID),
+NOTIFICATION_TIME DATE DEFAULT SYSDATE,
+Status INT
 );
