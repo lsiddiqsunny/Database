@@ -114,10 +114,11 @@ CREATE OR REPLACE TRIGGER notification_after_update_book
 AFTER UPDATE ON BOOK FOR EACH ROW
 
 BEGIN
+IF :OLD.PRICE<>:NEW.PRICE THEN
 INSERT INTO NOTIFICATION VALUES
 ((SELECT COUNT(*) FROM NOTIFICATION)+1,'The Price of the book is Updated',
 (select e.employee_id from employee e where e.book_storage_id=:NEW.storage_id), null, null, :NEW.PUBLISHER_ID, SYSDATE,1);
-
+END IF;
 END;
 /
 7.
