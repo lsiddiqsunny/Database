@@ -130,3 +130,57 @@ INSERT INTO NOTIFICATION VALUES
 (select e.employee_id from employee e where e.book_storage_id=:NEW.storage_id), null, null, :NEW.PUBLISHER_ID, SYSDATE,1);
 
 END;
+
+8.
+CREATE OR REPLACE TRIGGER notification_before_publisher_transaction
+AFTER UPDATE
+   ON Bookrequest
+   FOR EACH ROW
+
+DECLARE
+
+
+BEGIN
+
+IF :OLD.STATUES=1 THEN
+   INSERT INTO NOTIFICATION
+   VALUES
+   ( (SELECT COUNT(*) FROM NOTIFICATION)+1,
+       'The order is assigned to our agent.You will be paid  soon.Thank You.',
+     null,
+     null,
+     NULL,
+    :OLD.publisher_id,
+     SYSDATE,
+     1);
+
+
+END IF;
+END;
+9.
+
+CREATE OR REPLACE TRIGGER notification_after_publisher_transaction
+AFTER UPDATE
+   ON PUBLISHER_TRANSACTION
+   FOR EACH ROW
+
+DECLARE
+
+
+BEGIN
+
+IF :OLD.STATUS=0 THEN
+   INSERT INTO NOTIFICATION
+   VALUES
+   ( (SELECT COUNT(*) FROM NOTIFICATION)+1,
+       'You are paid and recieved books.If it is an error,please call our help center-123.Thank You',
+     :old.assignedto,
+     null,
+     NULL,
+    :OLD.publisher_id,
+     SYSDATE,
+     1);
+
+
+END IF;
+END;
