@@ -86,6 +86,7 @@ MSG:='CONFIRMED';
 END IF;
 RETURN MSG;
 END;
+
 6.
 create or replace FUNCTION GET_STATUS_NOTICE(EID IN VARCHAR2)
 RETURN VARCHAR2 IS
@@ -119,33 +120,35 @@ RETURN Amount;
 END;
 
 8.
-
 create or replace FUNCTION GET_Price(EID IN NUMBER)
 RETURN VARCHAR2 IS
 Amount Number ;
 COUNTER NUMBER;
 Price NUMBER;
+Offer Number;
 BEGIN
 
 Amount:=0;
 FOR R IN (Select order_id from customer_purchase WHERE purchase_id=EID)
 LOOP
-select b.price-b.price*NVL(o.Applied_offer,0)*.01 into Price
+select b.price into Price
 from Book b,Customer_order o where o.book_id=b.book_id and o.order_id=R.order_id;
-
-
-Amount:= Amount+Price;
+select
+nvl(o.applied_offer,0) into Offer
+from Customer_order o where  o.order_id=R.order_id;
+Amount:= Amount+(Price-Price*Offer*.01);
 END LOOP ;
 RETURN Amount;
 END;
 
 9.
+
 create or replace PROCEDURE SET_SUPPLIERANDSTATUS(EID IN INT,ID IN INT)
 IS
 
+ASSIGNED INT;
+CID INT;
 BEGIN
-
-
 FOR R IN (Select order_id from customer_purchase WHERE purchase_id=EID)
 LOOP
 UPDATE CUSTOMER_ORDER
@@ -154,23 +157,58 @@ WHERE ORDER_ID=R.ORDER_ID;
 UPDATE CUSTOMER_ORDER
 SET STATUS=2
 WHERE ORDER_ID=R.ORDER_ID;
+
 END LOOP ;
 
+SELECT  DISTINCT ASSIGNEDTO INTO ASSIGNED
+FROM CUSTOMER_PURCHASE P,CUSTOMER_ORDER R WHERE P.ORDER_ID=R.ORDER_ID AND P.PURCHASE_ID=EID;
+SELECT  distinct CUSTOMER_ID into CID
+FROM CUSTOMER_PURCHASE P,CUSTOMER_ORDER R WHERE P.ORDER_ID=R.ORDER_ID AND P.PURCHASE_ID=EID;
+INSERT INTO NOTIFICATION
+   VALUES
+   ( (SELECT COUNT(*) FROM NOTIFICATION)+1,
+     'Your purchase order is assigned to our supplier.You will recieve your product soon.Thank You.',
+     (SELECT MANAGER_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=ASSIGNED),
+    CID,
+     NULL,
+     NULL,
+     SYSDATE,
+     1);
+
 END;
+/
 
 10.
 create or replace PROCEDURE SET_STATUS(EID IN INT)
 IS
 
+ASSIGNED INT;
+CID INT;
+
 BEGIN
 FOR R IN (Select order_id from customer_purchase WHERE purchase_id=EID)
 LOOP
 UPDATE CUSTOMER_ORDER
-SET STATUS=2
+SET STATUS=3
 WHERE ORDER_ID=R.ORDER_ID;
 END LOOP ;
+SELECT  DISTINCT ASSIGNEDTO INTO ASSIGNED
+FROM CUSTOMER_PURCHASE P,CUSTOMER_ORDER R WHERE P.ORDER_ID=R.ORDER_ID AND P.PURCHASE_ID=EID;
+SELECT  distinct CUSTOMER_ID into CID
+FROM CUSTOMER_PURCHASE P,CUSTOMER_ORDER R WHERE P.ORDER_ID=R.ORDER_ID AND P.PURCHASE_ID=EID;
+INSERT INTO NOTIFICATION
+   VALUES
+   ( (SELECT COUNT(*) FROM NOTIFICATION)+1,
+     'You have recieved your book. If it is not true please connect with our helpline: 123. Thank You.',
+     (SELECT MANAGER_ID FROM EMPLOYEE WHERE EMPLOYEE_ID=ASSIGNED),
+    CID,
+     NULL,
+     NULL,
+     SYSDATE,
+     1);
 
 END;
+
 
 11.
 
@@ -191,3 +229,62 @@ MSG:=MSG||R.AUTHOR_NAME;
 END LOOP ;
 RETURN MSG ;
 END;
+
+12.
+
+Create or replace PROCEDURE Set_rating(EID IN INT)
+IS
+CO number;
+Total Number;
+BEGIN
+CO:=0;
+Total:= 0.0;
+FOR R IN (SELECT RATING FROM REVIEW WHERE BOOK_ID= EID)
+LOOP
+CO :=CO+1;
+Total:= Total+R.Rating;
+END LOOP;
+Update Book
+Set Rating=(Total/CO)
+Where Book_id= EID;
+
+END;
+
+13.
+Create or replace PROCEDURE Updatestatus(EID IN INT)
+IS
+
+BEGIN
+
+FOR R IN (SELECT ORDER_ID FROM CUSTOMER_PURCHASE WHERE PURCHASE_ID= EID)
+LOOP
+Update CUSTOMER_ORDER
+Set STATUS=1
+Where ORDER_ID=R.ORDER_iD;
+END LOOP;
+
+
+END;
+
+14.
+Create or replace PROCEDURE NoticeAll(GIVENBY IN INT,BRANCH_ID IN INT,NOTICE IN VARCHAR2)
+IS
+BEGIN
+
+FOR R IN (select distinct JOB_ID from employee e where manager_id= GIVENBY)
+LOOP
+INSERT INTO NOTICE VALUES((SELECT COUNT(*) FROM NOTICE)+1,NOTICE,SYSDATE,GIVENBY,BRANCH_ID,R.JOB_ID,1);
+END LOOP;
+
+
+END;
+15.
+create or replace PROCEDURE PUBLISHER_NOTICE(EID IN VARCHAR2,PID IN VARCHAR2,NOTICE VARCHAR2)
+IS
+
+BEGIN
+INSERT INTO NOTIFICATION VALUES
+((SELECT COUNT(*) FROM NOTIFICATION)+1,NOTICE,
+EID, null, null,PID, SYSDATE,1);
+END;
+/

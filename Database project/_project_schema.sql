@@ -61,9 +61,9 @@ Employee_id  REFERENCES Employee(Employee_id),
 Start_date DATE DEFAULT SYSDATE,
 End_date DATE DEFAULT SYSDATE,
 Job_id  REFERENCES Job(Job_id),
-Department_id  REFERENCES Department(Department_id),
+
 Branch_id  REFERENCES Branch(Branch_id),
-CONSTRAINT JOB_HSITORY_PK PRIMARY KEY (Employee_id,Job_id,Department_id,Branch_id)
+CONSTRAINT JOB_HSITORY_PK PRIMARY KEY (Employee_id,Job_id,Branch_id)
 );
 
 
@@ -120,7 +120,8 @@ Email VARCHAR2(255),
 Phone_number VARCHAR2(30),
 Password VARCHAR2(100),
 Location_id REFERENCES Location(Location_id),
-Branch_id REFERENCES Branch(Branch_id)
+Branch_id REFERENCES Branch(Branch_id),
+OFFERED_BY REFERENCES EMPLOYEE(EMPLOYEE_ID)
 );
 
 --Offer_Details
